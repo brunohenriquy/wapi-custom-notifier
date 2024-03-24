@@ -99,7 +99,7 @@ notify:
   - platform: wapi
     name: wapi whatsapp notifire
     session: ABCD #Set your own session
-    url: http://192.168.0.238:3000/client/sendMessage #Set the url configured in the whatsapp-api docker
+    url: http://192.168.0.238:3000 #Set the url of your whatsapp-api docker container
     token: #Optional - This token shoukd be equel to the token you set in the whatsapp-api configuration.
 ```
 
@@ -116,6 +116,8 @@ data:
   message: The garage door has been open for 10 minutes.
   title: Your Garage Door Friend
   target: xxxxxxxxxx@c.us #Can be contact or group chat id
+  data:
+    delete_for_myself_after_send: false
 
 
 ```
