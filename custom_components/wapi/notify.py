@@ -58,12 +58,11 @@ class MatterNotificationService(BaseNotificationService):
                         _LOGGER.info("WAPI - Message deleted for myself")
                         break
                     else:
-                        if response.json().get("error", None) == "Message not Found":
-                            _LOGGER.info(f"WAPI - Message not deleted - not found yet, trying again in {wait_seconds} seconds")
-                            time.sleep(wait_seconds)
-                            retry_count += 1
-                        else:
-                            break
+                        _LOGGER.info(
+                            f"WAPI - Message not deleted - not found yet, trying again in {wait_seconds} seconds"
+                        )
+                        time.sleep(wait_seconds)
+                        retry_count += 1
                 except Exception as ex:
                     _LOGGER.info(f"WAPI - Message not deleted - error, trying again in {wait_seconds} seconds: {ex}")
                     time.sleep(wait_seconds)
