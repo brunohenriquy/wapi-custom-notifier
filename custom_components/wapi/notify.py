@@ -49,6 +49,7 @@ class MatterNotificationService(BaseNotificationService):
 
             max_retries = 10
             retry_count = 0
+            wait_seconds = 5
             while retry_count < max_retries:
                 try:
                     response = requests.post(self._url + "/message/delete/" + self.session, json=data_delete,
@@ -58,14 +59,14 @@ class MatterNotificationService(BaseNotificationService):
                         break
                     else:
                         if response.json().get("error", None) == "Message not Found":
-                            _LOGGER.info("WAPI - Message not deleted - not found yet, trying again in 1 minute")
-                            time.sleep(1)
+                            _LOGGER.info(f"WAPI - Message not deleted - not found yet, trying again in {wait_seconds} seconds")
+                            time.sleep(wait_seconds)
                             retry_count += 1
                         else:
                             break
                 except Exception as ex:
-                    _LOGGER.info(f"WAPI - Message not deleted - error, trying again in 1 minute: {ex}")
-                    time.sleep(1)
+                    _LOGGER.info(f"WAPI - Message not deleted - error, trying again in {wait_seconds} seconds: {ex}")
+                    time.sleep(wait_seconds)
                     retry_count += 1
 
             response.raise_for_status()
